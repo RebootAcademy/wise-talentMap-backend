@@ -11,7 +11,7 @@ router
   .post('/', createEducation)
   .get('/', getAllEducation)
   .get('/:id', getOneEducation)
-  .patch('/:id', updateEducation)
-  .delete('/:id', deleteEducation)
+/*   .patch('/:id', updateEducation)
+  .delete('/:id', deleteEducation) */
 
 module.exports = router

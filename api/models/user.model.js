@@ -1,3 +1,4 @@
+const {ObjectId} = require('mongodb')
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
@@ -9,13 +10,34 @@ const userSchema = new mongoose.Schema({
     type: String,
     //required: true,
   },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user',
+  },
   email: {
     type: String,
+    unique: true,
     //required: true,
   },
+  steam: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'steam',
+  },
+  sectors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'sector',
+    },
+  ],
   phoneNumber: {
     type: String,
     //required: true,
+  },
+  company:{
+    /* type: mongoose.Schema.Types.ObjectId,
+    ref: 'company' */
+    type: String
   },
   birthday: {
     type: Date,
@@ -31,29 +53,29 @@ const userSchema = new mongoose.Schema({
   linkedin: {
     type: String,
   },
-  partner:{
+  partner: {
     type: Boolean,
-    default: false
+    default: false,
   },
   acceptNewsLetter: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  image:{
-    type: String
+  image: {
+    type: String,
   },
   educationalLevel: {
-    type: String, //Is ObjectId type
-    //required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'education',
   },
-  educationalDescription:{
+  educationalDescription: {
     type: String,
   },
   location: {
-    type: String, //Is ObjectId type
-  }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'location',
+  },
 })
 
-
-const User = mongoose.model('User', userSchema) 
+const User = mongoose.model('User', userSchema)
 module.exports = User

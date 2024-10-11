@@ -1,12 +1,25 @@
 const mongoose = require('mongoose')
 
-const educationSchema = new mongoose.Schema({
+const educationSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true
-    }
-    
-})
+      type: String,
+      unique: true,
+      required: true,
+      enum: [
+        'Formación Profesional',
+        'Educación Primaria',
+        'Educación Secundaria',
+        'Grado Universitario',
+        'Posgrado',
+        'Doctorado',
+      ],
+    },
+  },
+  {
+    timestamps: false,
+  }
+)
 
 const Education = mongoose.model('education', educationSchema)
 

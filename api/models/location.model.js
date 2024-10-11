@@ -1,12 +1,17 @@
 const mongoose = require('mongoose')
 
-const locationSchema = new mongoose.Schema({
+const locationSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        enum: ['Canarias', 'Resto del mundo'],
+      type: String,
+      unique: true,
+      enum: ['Canarias', 'Resto del mundo'],
     },
-    
-})
+  },
+  {
+    timestamps: false,
+  }
+)
 
 const location = mongoose.model('location', locationSchema)
 

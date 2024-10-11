@@ -11,7 +11,7 @@ router
   .post('/', createLocation)
   .get('/', getAllLocations)
   .get('/:id', getOneLocation)
-  .patch('/:id', updateLocation)
-  .delete('/:id', deleteLocation)
+/*   .patch('/:id', updateLocation)
+  .delete('/:id', deleteLocation) */
 
 module.exports = router
