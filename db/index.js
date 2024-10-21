@@ -9,7 +9,7 @@ const dbConnect = async () => {
     console.info(`Connected to WISE-C DB`)
   } catch (err) {
     console.log(err)
-    throw new Error(`ERROR: Cannot connect to TARO DB`)
+    throw new Error(`ERROR: Cannot connect to WISE-C DB`)
   }
 }
 
