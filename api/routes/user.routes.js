@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const  isAuth  = require('../middlewares/isAuth')
 const { 
     createUser,
     getAllUsers,
@@ -13,7 +14,7 @@ const {
 
 
 router
-  .post('/', createUser)
+  .post('/', isAuth, createUser)
   .get('/', getAllUsers)
   .get('/sector', getUsersBySector)
   .get('/steam/:steam', getUserBySteamArea)
