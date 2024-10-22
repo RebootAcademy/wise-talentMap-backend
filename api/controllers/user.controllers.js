@@ -82,6 +82,7 @@ const createUser = async (req, res) => {
       result: user,
     })
   } catch (error) {
+    console.log('Error create user controller', error.message)
     res.status(500).json({
       success: false,
       message: 'Error creating User',
