@@ -41,7 +41,7 @@ const createUser = async (req, res) => {
     }
 
     */
-    const validSectors = await Sectors.findOne({name: body.sectors})
+    const validSectors = await Sector.findOne({name: body.sectors})
 
     const location = await Location.findOne({name: body.location})
     const steam = await Steam.findOne({name: body.steam})
