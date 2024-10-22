@@ -18,7 +18,7 @@ const createUser = async (req, res) => {
         .status(409)
         .json({success: false, message: 'User already exists'})
     }
-
+/*
     const sectors = await Promise.allSettled(
       body.sectors.map(async (sector) => {
         const searchSector = await Sector.findOne({name: sector})
@@ -26,6 +26,7 @@ const createUser = async (req, res) => {
       })
     )
 
+  
     const validSectors = sectors
       .filter(
         (result) => result.status === 'fulfilled' && result.value !== undefined
@@ -38,6 +39,9 @@ const createUser = async (req, res) => {
         message: 'There is an invalid Sector',
       })
     }
+
+    */
+    const validSectors = await Sectors.findOne({name: body.sectors})
 
     const location = await Location.findOne({name: body.location})
     const steam = await Steam.findOne({name: body.steam})
