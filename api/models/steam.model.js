@@ -6,7 +6,7 @@ const steamSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      enum: ['Ciencia', 'Tecnología', 'Ingenieria', 'Arte', 'Matemáticas'],
+      enum: ['Ciencia', 'Tecnología', 'Ingeniería', 'Arte', 'Matemáticas'],
       trim: true,
     },
   },

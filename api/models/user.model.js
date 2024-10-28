@@ -20,10 +20,12 @@ const userSchema = new mongoose.Schema({
     unique: true,
     //required: true,
   },
-  steam: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'steam',
-  },
+  steam: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'steam',
+    },
+  ],
   sectors: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -34,10 +36,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     //required: true,
   },
-  company:{
+  company: {
     /* type: mongoose.Schema.Types.ObjectId,
     ref: 'company' */
-    type: String
+    type: String,
   },
   birthday: {
     type: Date,

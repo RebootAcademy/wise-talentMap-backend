@@ -39,24 +39,39 @@ const createUser = async (req, res) => {
       })
     }
 
-    const location = await Location.findOne({name: body.location})
-    const steam = await Steam.findOne({name: body.steam})
+    let location
+
+    if (body.location.type === 'Resto del mundo') {
+      location = await Location.findOne({type: body.location.type, country: body.location.country, city: body.location.city})
+    } else {
+      location = await Location.findOne({type: body.location.type, island: body.location.island, municipality: body.location.municipality})
+    }
+
+     const steams = await Promise.allSettled(
+       body.steam.map(async (steamName) => {
+         const steamRecord = await Steam.findOne({name: steamName})
+         return steamRecord ? steamRecord._id : null
+       })
+     )
+     const validSteams = steams
+       .filter(
+         (result) => result.status === 'fulfilled' && result.value !== null
+       )
+       .map((result) => result.value)
+
+     if (validSteams.length === 0) {
+       return res.status(404).json({
+         success: false,
+         message: 'There is an invalid Steam',
+       })
+     }
+
     const educationLevel = await Education.findOne({
       name: body.educationalLevel,
     })
 
     if (!location) {
-      return res.status(404).json({
-        success: false,
-        message: 'Location not found',
-      })
-    }
-
-    if (!steam) {
-      return res.status(404).json({
-        success: false,
-        message: 'Steam not found',
-      })
+      location = await Location.create(body.location)
     }
 
     if (!educationLevel) {
@@ -70,7 +85,7 @@ const createUser = async (req, res) => {
       ...body,
       sectors: validSectors,
       location: location._id,
-      steam: steam._id,
+      steam: validSteams,
       educationalLevel: educationLevel._id,
     }
 

@@ -2,10 +2,51 @@ const mongoose = require('mongoose')
 
 const locationSchema = new mongoose.Schema(
   {
-    name: {
+    type: {
       type: String,
-      unique: true,
       enum: ['Canarias', 'Resto del mundo'],
+      required: true,
+    },
+    island: {
+      name: {
+        type: String,
+        enum: [
+          'Tenerife',
+          'La Palma',
+          'Gran Canaria',
+          'Fuerteventura',
+          'Lanzarote',
+          'La Graciosa',
+          'La Gomera',
+          'El Hierro',
+        ],
+        required: function () {
+          return this.type === 'Canarias'
+        },
+      },
+      municipality: {
+        type: String,
+        required: function () {
+          return this.type === 'Canarias'
+        },
+      },
+    },
+    // Solo para "Resto del mundo"
+    counntry: {
+      name: {
+        type: String,
+        required: function () {
+          return this.type === 'Resto del mundo'
+        },
+        default: null,
+      },
+      city: {
+        type: String,
+        required: function () {
+          return this.type === 'Resto del mundo'
+        },
+        default: null,
+      },
     },
   },
   {
@@ -13,6 +54,6 @@ const locationSchema = new mongoose.Schema(
   }
 )
 
-const location = mongoose.model('location', locationSchema)
+const Location = mongoose.model('Location', locationSchema)
 
-module.exports = location
+module.exports = Location
