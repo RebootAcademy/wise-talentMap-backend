@@ -42,29 +42,37 @@ const createUser = async (req, res) => {
     let location
 
     if (body.location.type === 'Resto del mundo') {
-      location = await Location.findOne({type: body.location.type, country: body.location.country, city: body.location.city})
+      location = await Location.findOne({
+        type: body.location.type,
+        country: body.location.country,
+        city: body.location.city,
+      })
     } else {
-      location = await Location.findOne({type: body.location.type, island: body.location.island, municipality: body.location.municipality})
+      location = await Location.findOne({
+        type: body.location.type,
+        island: body.location.island,
+        municipality: body.location.municipality,
+      })
     }
 
-     const steams = await Promise.allSettled(
-       body.steam.map(async (steamName) => {
-         const steamRecord = await Steam.findOne({name: steamName})
-         return steamRecord ? steamRecord._id : null
-       })
-     )
-     const validSteams = steams
-       .filter(
-         (result) => result.status === 'fulfilled' && result.value !== null
-       )
-       .map((result) => result.value)
+    const steams = await Promise.allSettled(
+      body.steam.map(async (steamName) => {
+        const steamRecord = await Steam.findOne({name: steamName})
+        return steamRecord ? steamRecord._id : null
+      })
+    )
+    const validSteams = steams
+      .filter(
+        (result) => result.status === 'fulfilled' && result.value !== null
+      )
+      .map((result) => result.value)
 
-     if (validSteams.length === 0) {
-       return res.status(404).json({
-         success: false,
-         message: 'There is an invalid Steam',
-       })
-     }
+    if (validSteams.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'There is an invalid Steam',
+      })
+    }
 
     const educationLevel = await Education.findOne({
       name: body.educationalLevel,
@@ -104,6 +112,7 @@ const createUser = async (req, res) => {
     })
   }
 }
+
 
 /**
  *  Get all users
