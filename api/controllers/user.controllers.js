@@ -1,5 +1,5 @@
-const Location = require('../models/location.model')
 const User = require('../models/user.model')
+const Location = require('../models/location.model')
 const Sector = require('../models/sector.model')
 const Steam = require('../models/steam.model')
 const Education = require('../models/education.model')
@@ -55,6 +55,32 @@ const createUser = async (req, res) => {
       })
     }
 
+      if (!location) {
+        location = await Location.create(body.location)
+      }
+
+    let validResearchs = null
+    if (body.research && body.research.length > 0) {
+      const researchs = await Promise.allSettled(
+        body.research.map(async (research) => {
+          const researchRecord = await Steam.findOne({name: research})
+          return researchRecord ? researchRecord._id : null
+        })
+      )
+       validResearchs = researchs
+        .filter(
+          (result) => result.status === 'fulfilled' && result.value !== null
+        )
+        .map((result) => result.value)
+  
+      if (validResearchs.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'There is an invalid Research',
+        })
+      }
+    }
+
     const steams = await Promise.allSettled(
       body.steam.map(async (steamName) => {
         const steamRecord = await Steam.findOne({name: steamName})
@@ -78,9 +104,7 @@ const createUser = async (req, res) => {
       name: body.educationalLevel,
     })
 
-    if (!location) {
-      location = await Location.create(body.location)
-    }
+  
 
     if (!educationLevel) {
       return res.status(404).json({
@@ -92,6 +116,7 @@ const createUser = async (req, res) => {
     body = {
       ...body,
       sectors: validSectors,
+      research: validResearchs,
       location: location._id,
       steam: validSteams,
       educationalLevel: educationLevel._id,
@@ -124,7 +149,7 @@ const getAllUsers = async (req, res) => {
   try {
     const query = req.query || {}
     const users = await User.find(query).populate(
-      'location sectors educationalLevel'
+      'location sectors steam educationalLevel'
     )
     res.status(200).json({
       success: true,
@@ -132,6 +157,8 @@ const getAllUsers = async (req, res) => {
       result: users,
     })
   } catch (error) {
+    console.log(error.message)
+
     res.status(500).json({
       success: false,
       message: 'Error retrieving Users',

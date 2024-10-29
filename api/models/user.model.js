@@ -77,6 +77,16 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'location',
   },
+  level: {
+    type: String,
+    enum: ['junior', 'mid-junior', 'mid', 'senior']
+  },
+  research: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'research',
+    }
+  ]
 })
 
 const User = mongoose.model('User', userSchema)

@@ -8,45 +8,45 @@ const locationSchema = new mongoose.Schema(
       required: true,
     },
     island: {
-      name: {
-        type: String,
-        enum: [
-          'Tenerife',
-          'La Palma',
-          'Gran Canaria',
-          'Fuerteventura',
-          'Lanzarote',
-          'La Graciosa',
-          'La Gomera',
-          'El Hierro',
-        ],
-        required: function () {
-          return this.type === 'Canarias'
-        },
-      },
-      municipality: {
-        type: String,
-        required: function () {
-          return this.type === 'Canarias'
-        },
+      type: String,
+      enum: [
+        'Tenerife',
+        'La Palma',
+        'Gran Canaria',
+        'Fuerteventura',
+        'Lanzarote',
+        'La Graciosa',
+        'La Gomera',
+        'El Hierro',
+      ],
+      required: function () {
+        return this.type === 'Canarias'
       },
     },
+    municipality: {
+      type: String,
+      required: function () {
+        return this.type === 'Canarias'
+      },
+
+    },
     // Solo para "Resto del mundo"
-    counntry: {
-      name: {
-        type: String,
-        required: function () {
-          return this.type === 'Resto del mundo'
-        },
-        default: null,
+    country: {
+      type: String,
+      required: function () {
+        return this.type === 'Resto del mundo'
       },
-      city: {
-        type: String,
-        required: function () {
-          return this.type === 'Resto del mundo'
-        },
-        default: null,
+      default: null,
+    },
+    city: {
+      type: String,
+      required: function () {
+        return this.type === 'Resto del mundo'
       },
+      default: null,
+    },
+    coordinates: {
+      type: Array,
     },
   },
   {
