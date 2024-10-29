@@ -15,6 +15,6 @@ const steamSchema = new mongoose.Schema(
   }
 )
 
-const Steam = mongoose.model('Steam', steamSchema)
+const Steam = mongoose.model('steam', steamSchema)
 
 module.exports = Steam
