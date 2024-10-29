@@ -32,7 +32,7 @@ const locationSchema = new mongoose.Schema(
       },
     },
     // Solo para "Resto del mundo"
-    counntry: {
+    country: {
       name: {
         type: String,
         required: function () {
@@ -54,6 +54,6 @@ const locationSchema = new mongoose.Schema(
   }
 )
 
-const Location = mongoose.model('Location', locationSchema)
+const Location = mongoose.model('location', locationSchema)
 
 module.exports = Location
